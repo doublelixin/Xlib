@@ -11,13 +11,13 @@ import com.doublex.libx.R;
 /**
  * ToastUtils
  */
-public class ToastUtils {
+class ToastUtils {
     private static Toast toast = null;
 
     /**
      * 优化多次重复弹窗的toast
      */
-    public static void toast(Context context, String message) {
+    static void toast(Context context, String message) {
         if (toast != null) {
             toast.setText(message);
             toast.setDuration(Toast.LENGTH_SHORT);
@@ -28,12 +28,20 @@ public class ToastUtils {
         }
     }
 
+    static void toastShort(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    static void toastLong(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+    }
+
     /**
      * 中心toast
      * 根据需求，后期将进行改进
      * --需要改进
      */
-    public static void toastCenter(Context context, String title, String content) {
+    static void toastCenter(Context context, String title, String content) {
         View inflate = View.inflate(context, R.layout.custom_toast, null);
         TextView titleView = inflate.findViewById(R.id.toast_title);
         titleView.setText(title);

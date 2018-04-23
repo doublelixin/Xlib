@@ -5,4 +5,9 @@ package com.doublex.xlib;
  */
 
 interface Constants {
+    /**
+     * 保存在手机里面的SP的文件名
+     */
+    String SP_NAME = "share_data";
+
 }
