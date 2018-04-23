@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doublex.libx.R;
-
 /**
  * ToastUtils
  */
