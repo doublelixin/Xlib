@@ -10,7 +10,6 @@ import java.util.Map;
 public class Xlib {
 
     //============================app=============================
-    //============================log=============================
 
     public void setApp(Application app) {
         AppUtils.setApplication(app);
@@ -34,7 +33,6 @@ public class Xlib {
     /**
      * 获取包名简写名称
      */
-    @NonNull
     public static String getPackageSubName() {
         return AppUtils.getPackageSubName(AppUtils.getContext());
     }
@@ -142,27 +140,94 @@ public class Xlib {
 
     //============================sp=============================
 
+    /**
+     * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
+     */
     public static Object getSP(String key, String defaultValue) {
         return SharedPreferencesUtils.get(AppUtils.getContext(), key, defaultValue);
     }
 
+    /**
+     * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
+     */
     public static void putSP(String key, String defaultValue) {
         SharedPreferencesUtils.put(AppUtils.getContext(), key, defaultValue);
     }
 
-    static boolean contains(String key) {
+    /**
+     * 查询某个key是否已经存在
+     */
+    public static boolean contains(String key) {
         return SharedPreferencesUtils.contains(AppUtils.getContext(), key);
     }
 
-    static Map<String, ?> getAll() {
+    /**
+     * 查询所有的键值对
+     */
+    public static Map<String, ?> getAll() {
         return SharedPreferencesUtils.getAll(AppUtils.getContext());
     }
 
-    static void remove(String key) {
+    /**
+     * 移除某个key值已经对应的值
+     */
+    public static void remove(String key) {
         SharedPreferencesUtils.remove(AppUtils.getContext(), key);
     }
 
-    static void clear(Context context) {
+    /**
+     * 清除所有数据
+     */
+    public static void clear() {
         SharedPreferencesUtils.clear(AppUtils.getContext());
+    }
+
+    //============================log=============================
+
+    /**
+     * 设置是否开启debug
+     */
+    public static void setDebug(boolean isDebug) {
+        LogUtils.setDebug(isDebug);
+    }
+
+    public static void LogD(@NonNull String message) {
+        LogUtils.d(message);
+    }
+
+    public static void LogD(@NonNull String tag, @NonNull String message) {
+        LogUtils.d(tag, message);
+    }
+
+    public static void LogE(@NonNull String message) {
+        LogUtils.e(message);
+    }
+
+    public static void LogE(@NonNull String tag, @NonNull String message) {
+        LogUtils.e(tag, message);
+    }
+
+    public static void LogI(@NonNull String message) {
+        LogUtils.i(message);
+    }
+
+    public static void LogI(@NonNull String tag, @NonNull String message) {
+        LogUtils.i(tag, message);
+    }
+
+    public static void LogV(@NonNull String message) {
+        LogUtils.v(message);
+    }
+
+    public static void LogV(@NonNull String tag, @NonNull String message) {
+        LogUtils.v(tag, message);
+    }
+
+    public static void LogW(@NonNull String message) {
+        LogUtils.w(message);
+    }
+
+    public static void LogW(@NonNull String tag, @NonNull String message) {
+        LogUtils.w(tag, message);
     }
 }
