@@ -6,7 +6,6 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.v4.BuildConfig;
 import android.view.KeyEvent;
 
 class AppUtils {
