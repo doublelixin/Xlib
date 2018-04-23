@@ -11,14 +11,14 @@ public class Xlib {
 
     //============================app=============================
 
-    public void setApp(Application app) {
+    public static void setApp(Application app) {
         AppUtils.setApplication(app);
     }
 
     /**
      * 获取全局 Context
      */
-    public Context getAppContext() {
+    public static Context getAppContext() {
         return AppUtils.getContext();
     }
 
