@@ -11,6 +11,6 @@ allprojects {
 ---
 ```
 dependencies {
-        implementation 'com.github.doublelixin:Xlib:1.0.0'
+        implementation 'com.github.doublelixin:Xlib:1.0.3'
 }
 ```
