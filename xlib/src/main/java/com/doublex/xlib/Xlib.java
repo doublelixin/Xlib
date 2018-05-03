@@ -1,6 +1,5 @@
 package com.doublex.xlib;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -94,17 +93,45 @@ public class Xlib {
     //============================window=============================
 
     /**
-     * 获取窗口宽度
+     * 获取屏幕宽度(px)
      */
-    public static int getWindowWidth(Activity activity) {
-        return ScreenUtils.getWindowWidth(activity);
+    public static int getScreenWidth(Context context) {
+        return ScreenUtils.getScreenWidth(context);
     }
 
     /**
-     * 获取窗口高度
+     * 获取屏幕高度(px)
      */
-    public static int getWindowHeight(Activity activity) {
-        return ScreenUtils.getWindowHeight(activity);
+    public static int getScreenHeight(Context context) {
+        return ScreenUtils.getScreenHeight(context);
+    }
+
+    /**
+     * 获取状态栏高度
+     */
+    public static int getStatusBarHeight(Context context) {
+        return ScreenUtils.getStatusBarHeight(context);
+    }
+
+    /**
+     * 计算NavigationBar(导航栏)的高度
+     */
+    public static int getNavigationBarHeight(Context context) {
+        return ScreenUtils.getNavigationBarHeight(context);
+    }
+
+    /**
+     * px2dip
+     */
+    public static int px2dip(Context context, float pxValue) {
+        return ScreenUtils.px2dip(context, pxValue);
+    }
+
+    /**
+     * dip2px
+     */
+    public static int dip2px(Context context, float dipValue) {
+        return ScreenUtils.dip2px(context, dipValue);
     }
     //============================time=============================
 
