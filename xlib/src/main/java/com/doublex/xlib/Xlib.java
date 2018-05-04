@@ -51,6 +51,35 @@ public class Xlib {
     }
 
     /**
+     * 获取手机MacID号
+     */
+    public static String getMacID(Context context) {
+        return AppUtils.getMacID(context);
+    }
+
+    /**
+     * 获取手机IMEI号
+     */
+    public static String getIMEI(Context context) {
+        return AppUtils.getIMEI(context);
+    }
+
+    /**
+     * 获取手机AndroidID号
+     */
+
+    public static String getAndroidID(Context context) {
+        return AppUtils.getAndroidID(context);
+    }
+
+    /**
+     * 检查是否已经有权限
+     */
+    public static boolean checkPermission(Context context, String perssion) {
+        return AppUtils.checkPermission(context, perssion);
+    }
+
+    /**
      * 点击返回按钮
      * 调用系统的返回事件
      */
