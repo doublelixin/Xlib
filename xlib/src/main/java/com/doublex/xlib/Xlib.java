@@ -44,6 +44,20 @@ public class Xlib {
     }
 
     /**
+     * 获取当前的方法名称
+     */
+    public static String getMethodName() {
+        return AppUtils.getMethodName();
+    }
+
+    /**
+     * 获取当前行号
+     */
+    public static int getLineNumber() {
+        return AppUtils.getLineNumber();
+    }
+
+    /**
      * 获取版本名称
      */
     public static String getVersionName() {

@@ -61,6 +61,20 @@ class AppUtils {
     }
 
     /**
+     * 获取当前的方法名称
+     */
+    static String getMethodName() {
+        return Thread.currentThread().getStackTrace()[1].getMethodName();
+    }
+
+    /**
+     * 获取当前行号
+     */
+    static int getLineNumber() {
+        return Thread.currentThread().getStackTrace()[1].getLineNumber();
+    }
+
+    /**
      * 获取版本名称
      */
     static String getVersionName(Context context) {
