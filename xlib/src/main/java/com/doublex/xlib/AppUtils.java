@@ -48,6 +48,19 @@ class AppUtils {
     }
 
     /**
+     * 获取当前类的名称
+     */
+    static String getClassName(Class clazz) {
+        String clazzName = clazz.getName();
+        String name;
+        if (clazzName.contains(".")) {
+            int index = clazzName.lastIndexOf(".") + 1;
+            name = clazzName.substring(index);
+        } else name = clazzName;
+        return name;
+    }
+
+    /**
      * 获取版本名称
      */
     static String getVersionName(Context context) {

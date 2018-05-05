@@ -37,6 +37,13 @@ public class Xlib {
     }
 
     /**
+     * 获取当前类的名称
+     */
+    public static String getClassName(Class clazz) {
+        return AppUtils.getClassName(clazz);
+    }
+
+    /**
      * 获取版本名称
      */
     public static String getVersionName() {
