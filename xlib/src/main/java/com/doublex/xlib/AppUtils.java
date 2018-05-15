@@ -2,6 +2,7 @@ package com.doublex.xlib;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
@@ -11,7 +12,15 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class AppUtils {
     @SuppressLint("StaticFieldLeak")
@@ -153,5 +162,52 @@ class AppUtils {
      */
     static boolean checkPermission(Context context, String perssion) {
         return ContextCompat.checkSelfPermission(context, perssion) != PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * 判断activity是否在前台
+     */
+    static boolean isForeground(Context context, String className) {
+        if (context == null || TextUtils.isEmpty(className)) return false;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = null;
+        if (am != null) {
+            list = am.getRunningTasks(1);
+        }
+        if (list != null && list.size() > 0) {
+            if (className.equals(list.get(0).topActivity.getClassName())) return true;
+        }
+        return false;
+    }
+
+    /**
+     * 打开输入法软键盘
+     */
+    static void openInputMethod(final EditText editText) {
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputManager != null) {
+                    inputManager.showSoftInput(editText, 0);
+                }
+            }
+        }, 200);
+    }
+
+    /**
+     * 关闭输入法软键盘
+     */
+    static void closeInputMethod(View view) {
+        try {
+            //获取输入法的服务
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            //判断是否在激活状态
+            if (imm != null && imm.isActive()) {
+                //隐藏输入法
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

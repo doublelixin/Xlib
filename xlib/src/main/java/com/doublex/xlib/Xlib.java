@@ -3,6 +3,8 @@ package com.doublex.xlib;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.EditText;
 
 import java.util.Map;
 
@@ -108,6 +110,26 @@ public class Xlib {
         AppUtils.onBackClick();
     }
 
+    /**
+     * 判断activity是否在前台
+     */
+    public boolean isForeground(Context context, String className) {
+        return AppUtils.isForeground(context, className);
+    }
+
+    /**
+     * 打开输入法软键盘
+     */
+    public void openInputMethod(EditText editText) {
+        AppUtils.openInputMethod(editText);
+    }
+
+    /**
+     * 关闭输入法软键盘
+     */
+    public void closeInputMethod(View view) {
+        AppUtils.closeInputMethod(view);
+    }
     //============================toast=============================
 
     /**
