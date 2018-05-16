@@ -83,7 +83,7 @@ public class Xlib {
     /**
      * 获取手机MACAddress
      */
-    public static String getMACAddress(Context context) {
+    public static String getMacAddress(Context context) {
         return AppUtils.getMacAddress(context);
     }
 
