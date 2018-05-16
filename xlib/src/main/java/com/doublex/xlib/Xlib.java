@@ -74,21 +74,28 @@ public class Xlib {
     }
 
     /**
-     * 获取手机MacID号
+     * 获取手机MacID
      */
     public static String getMacID(Context context) {
         return AppUtils.getMacID(context);
     }
 
     /**
-     * 获取手机IMEI号
+     * 获取手机MACAddress
+     */
+    public static String getMACAddress(Context context) {
+        return AppUtils.getMacAddress(context);
+    }
+
+    /**
+     * 获取手机IMEI
      */
     public static String getIMEI(Context context) {
         return AppUtils.getIMEI(context);
     }
 
     /**
-     * 获取手机AndroidID号
+     * 获取手机AndroidID
      */
 
     public static String getAndroidID(Context context) {
@@ -98,8 +105,8 @@ public class Xlib {
     /**
      * 检查是否已经有权限
      */
-    public static boolean checkPermission(Context context, String perssion) {
-        return AppUtils.checkPermission(context, perssion);
+    public static boolean checkPermission(Context context, String permission) {
+        return AppUtils.checkPermission(context, permission);
     }
 
     /**

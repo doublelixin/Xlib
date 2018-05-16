@@ -7,17 +7,30 @@ import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -129,12 +142,108 @@ class AppUtils {
      * 获取手机MacID号
      * 需要动态权限: android.permission.READ_PHONE_STATE
      */
+    @SuppressLint("MissingPermission")
     static String getMacID(Context context) {
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (checkPermission(context, Manifest.permission.ACCESS_WIFI_STATE)) {
-            @SuppressLint("MissingPermission") String WLANMAC = wm.getConnectionInfo().getMacAddress();
-            return WLANMAC;
+            return wm.getConnectionInfo().getMacAddress();
         } else return "NULL";
+    }
+
+    private static final String marshmallowMacAddress = "02:00:00:00:00:00";
+    private static final String fileAddressMac = "/sys/class/net/wlan0/address";
+
+    /**
+     * 获取手机MacID号
+     * 需要动态权限: android.permission.ACCESS_WIFI_STATE
+     */
+    @SuppressLint({"MissingPermission", "HardwareIds"})
+    static String getMacAddress(Context context) {
+        WifiManager wifiMan = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInf = wifiMan.getConnectionInfo();
+        if (wifiInf != null && marshmallowMacAddress.equals(wifiInf.getMacAddress())) {
+            String result;
+            try {
+                result = getAddressMacByInterface();
+                if (result != null) {
+                    return result;
+                } else {
+                    result = getAddressMacByFile(wifiMan);
+                    return result;
+                }
+            } catch (Exception e) {
+                Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC ");
+            }
+        } else {
+            if (wifiInf != null && wifiInf.getMacAddress() != null) {
+                return wifiInf.getMacAddress();
+            } else {
+                return "";
+            }
+        }
+        return marshmallowMacAddress;
+    }
+
+    private static String getAddressMacByInterface() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (nif.getName().equalsIgnoreCase("wlan0")) {
+                    byte[] macBytes = nif.getHardwareAddress();
+                    if (macBytes == null) {
+                        return "";
+                    }
+
+                    StringBuilder res1 = new StringBuilder();
+                    for (byte b : macBytes) {
+                        res1.append(String.format("%02X:", b));
+                    }
+
+                    if (res1.length() > 0) {
+                        res1.deleteCharAt(res1.length() - 1);
+                    }
+                    return res1.toString();
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("MobileAccess", "Error lecture properties Address MAC ");
+        }
+        return null;
+    }
+
+    @SuppressLint("MissingPermission")
+    private static String getAddressMacByFile(WifiManager wifiMan) throws Exception {
+        String ret;
+        int wifiState = wifiMan.getWifiState();
+        wifiMan.setWifiEnabled(true);
+        File fl = new File(fileAddressMac);
+        FileInputStream fin = new FileInputStream(fl);
+        ret = getStringFromStream(fin);
+        fin.close();
+        boolean enabled = WifiManager.WIFI_STATE_ENABLED == wifiState;
+        wifiMan.setWifiEnabled(enabled);
+        return ret;
+    }
+
+    private static String getStringFromStream(InputStream inputStream) throws IOException {
+        if (inputStream != null) {
+            Writer writer = new StringWriter();
+
+            char[] chars = new char[2048];
+            try {
+                Reader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                int counter;
+                while ((counter = bufferedReader.read(chars)) != -1) {
+                    writer.write(chars, 0, counter);
+                }
+            } finally {
+                inputStream.close();
+            }
+            return writer.toString();
+        } else {
+            return "No Contents";
+        }
     }
 
     /**
@@ -160,8 +269,8 @@ class AppUtils {
     /**
      * 检查是否已经有权限
      */
-    static boolean checkPermission(Context context, String perssion) {
-        return ContextCompat.checkSelfPermission(context, perssion) != PackageManager.PERMISSION_GRANTED;
+    static boolean checkPermission(Context context, String permission) {
+        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
