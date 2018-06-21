@@ -1,5 +1,7 @@
 # Xlib
 
+## 必须先调用initXlib()
+
 ```
 allprojects {
     repositories {
