@@ -20,15 +20,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import java.io.BufferedReader;
+import com.tencent.bugly.crashreport.CrashReport;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +39,7 @@ class AppUtils {
             throw new IllegalStateException("application already holded 'application'.");
         }
         AppUtils.application = application;
+        CrashReport.initCrashReport(getContext(), "687b2b755d", false);
     }
 
     /**
@@ -190,19 +186,7 @@ class AppUtils {
             for (NetworkInterface nif : all) {
                 if (nif.getName().equalsIgnoreCase("wlan0")) {
                     byte[] macBytes = nif.getHardwareAddress();
-                    if (macBytes == null) {
-                        return "";
-                    }
-
-                    StringBuilder res1 = new StringBuilder();
-                    for (byte b : macBytes) {
-                        res1.append(String.format("%02X:", b));
-                    }
-
-                    if (res1.length() > 0) {
-                        res1.deleteCharAt(res1.length() - 1);
-                    }
-                    return res1.toString();
+                    return StreamUtils.getString(macBytes);
                 }
             }
 
@@ -219,31 +203,11 @@ class AppUtils {
         wifiMan.setWifiEnabled(true);
         File fl = new File(fileAddressMac);
         FileInputStream fin = new FileInputStream(fl);
-        ret = getStringFromStream(fin);
+        ret = StreamUtils.getString(fin);
         fin.close();
         boolean enabled = WifiManager.WIFI_STATE_ENABLED == wifiState;
         wifiMan.setWifiEnabled(enabled);
         return ret;
-    }
-
-    private static String getStringFromStream(InputStream inputStream) throws IOException {
-        if (inputStream != null) {
-            Writer writer = new StringWriter();
-
-            char[] chars = new char[2048];
-            try {
-                Reader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                int counter;
-                while ((counter = bufferedReader.read(chars)) != -1) {
-                    writer.write(chars, 0, counter);
-                }
-            } finally {
-                inputStream.close();
-            }
-            return writer.toString();
-        } else {
-            return "No Contents";
-        }
     }
 
     /**

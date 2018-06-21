@@ -6,13 +6,14 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 public class Xlib {
 
     //============================app=============================
-
-    public static void setApp(Application app) {
+    public static void initXlib(Application app) {
         AppUtils.setApplication(app);
     }
 
@@ -335,5 +336,35 @@ public class Xlib {
 
     public static void LogW(@NonNull String tag, @NonNull String message) {
         LogUtils.w(tag, message);
+    }
+
+    //============================log=============================
+
+    /***
+     * Stream转为String
+     */
+    public static String getString(InputStream inputStream) throws IOException {
+        return StreamUtils.getString(inputStream);
+    }
+
+    /***
+     * byte转为String
+     */
+    public static String getString(byte[] bytes) {
+        return StreamUtils.getString(bytes);
+    }
+
+    /***
+     * get方式获取网络数据
+     */
+    public byte[] getResponseByte(String url) {
+        return StreamUtils.getResponse(url);
+    }
+
+    /***
+     * get方式获取网络数据
+     */
+    public String getResponseString(String url) {
+        return StreamUtils.getString(StreamUtils.getResponse(url));
     }
 }
