@@ -24,4 +24,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    implementation 'org.jetbrains:annotations-java5:15.0'
 }

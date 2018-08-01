@@ -10,9 +10,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+/**
+ * @author XinLi
+ * 工具库
+ */
 public class Xlib {
 
     //============================app=============================
+
+    /**
+     * 初始化
+     */
     public static void initXlib(Application app) {
         AppUtils.setApplication(app);
     }
@@ -35,6 +43,7 @@ public class Xlib {
     /**
      * 获取包名简写名称
      */
+    @NonNull
     public static String getPackageSubName() {
         return AppUtils.getPackageSubName(AppUtils.getContext());
     }
@@ -343,6 +352,7 @@ public class Xlib {
     /***
      * Stream转为String
      */
+    @org.jetbrains.annotations.Contract("null -> !null")
     public static String getString(InputStream inputStream) throws IOException {
         return StreamUtils.getString(inputStream);
     }
@@ -350,6 +360,7 @@ public class Xlib {
     /***
      * byte转为String
      */
+    @NonNull
     public static String getString(byte[] bytes) {
         return StreamUtils.getString(bytes);
     }
