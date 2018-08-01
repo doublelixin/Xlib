@@ -352,7 +352,6 @@ public class Xlib {
     /***
      * Stream转为String
      */
-    @org.jetbrains.annotations.Contract("null -> !null")
     public static String getString(InputStream inputStream) throws IOException {
         return StreamUtils.getString(inputStream);
     }
