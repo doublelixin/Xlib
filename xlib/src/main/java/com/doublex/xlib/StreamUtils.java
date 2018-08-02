@@ -67,7 +67,7 @@ class StreamUtils {
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inStream = conn.getInputStream();
                 byte[] b = new byte[1024];
-                int len = 0;
+                int len;
                 //创建字节数组输出流，读取输入流的文本数据时，同步把数据写入数组输出流
                 outStream = new ByteArrayOutputStream();
                 while ((len = inStream.read(b)) != -1) {

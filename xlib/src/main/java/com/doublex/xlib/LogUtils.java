@@ -20,53 +20,63 @@ class LogUtils {
     }
 
     static void d(@NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.d(TAG, message);
+        }
     }
 
     static void d(@NonNull String tag, @NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.d(tag, message);
+        }
     }
 
     static void e(@NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.e(TAG, message);
+        }
     }
 
     static void e(@NonNull String tag, @NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.e(tag, message);
+        }
     }
 
     static void i(@NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.i(TAG, message);
+        }
     }
 
     static void i(@NonNull String tag, @NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.i(tag, message);
+        }
     }
 
     static void v(@NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.v(TAG, message);
+        }
     }
 
     static void v(@NonNull String tag, @NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.v(tag, message);
+        }
     }
 
     static void w(@NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.w(TAG, message);
+        }
     }
 
     static void w(@NonNull String tag, @NonNull String message) {
-        if (mIsDebug)
+        if (mIsDebug) {
             android.util.Log.w(tag, message);
+        }
     }
 
 }

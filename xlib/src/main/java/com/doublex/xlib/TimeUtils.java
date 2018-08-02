@@ -11,7 +11,9 @@ class TimeUtils {
      * 获取自定义格式的当前时间
      */
     static String getCurrentTime(String format) {
-        if (TextUtils.isEmpty(format)) format = "yyyy-MM-dd HH:mm:ss";
+        if (TextUtils.isEmpty(format)) {
+            format = "yyyy-MM-dd HH:mm:ss";
+        }
         return new SimpleDateFormat(format, Locale.ENGLISH).format(System.currentTimeMillis());
     }
 

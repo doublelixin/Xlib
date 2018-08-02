@@ -74,7 +74,9 @@ class AppUtils {
         if (clazzName.contains(".")) {
             int index = clazzName.lastIndexOf(".") + 1;
             name = clazzName.substring(index);
-        } else name = clazzName;
+        } else {
+            name = clazzName;
+        }
         return name;
     }
 
@@ -124,6 +126,7 @@ class AppUtils {
      */
     static void onBackClick() {
         new Thread() {
+            @Override
             public void run() {
                 try {
                     new Instrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
@@ -138,16 +141,18 @@ class AppUtils {
      * 获取手机MacID号
      * 需要动态权限: android.permission.READ_PHONE_STATE
      */
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "HardwareIds"})
     static String getMacID(Context context) {
         WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (checkPermission(context, Manifest.permission.ACCESS_WIFI_STATE)) {
+        if (checkPermission(context, Manifest.permission.ACCESS_WIFI_STATE) && wm != null) {
             return wm.getConnectionInfo().getMacAddress();
-        } else return "NULL";
+        } else {
+            return "NULL";
+        }
     }
 
-    private static final String marshmallowMacAddress = "02:00:00:00:00:00";
-    private static final String fileAddressMac = "/sys/class/net/wlan0/address";
+    private static final String MARSHM_ALLOW_MAC_ADDRESS = "02:00:00:00:00:00";
+    private static final String FILE_ADDRESS_MAC = "/sys/class/net/wlan0/address";
 
     /**
      * 获取手机MacID号
@@ -156,8 +161,11 @@ class AppUtils {
     @SuppressLint({"MissingPermission", "HardwareIds"})
     static String getMacAddress(Context context) {
         WifiManager wifiMan = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInf = wifiMan.getConnectionInfo();
-        if (wifiInf != null && marshmallowMacAddress.equals(wifiInf.getMacAddress())) {
+        WifiInfo wifiInf = null;
+        if (wifiMan != null) {
+            wifiInf = wifiMan.getConnectionInfo();
+        }
+        if (wifiInf != null && MARSHM_ALLOW_MAC_ADDRESS.equals(wifiInf.getMacAddress())) {
             String result;
             try {
                 result = getAddressMacByInterface();
@@ -177,7 +185,7 @@ class AppUtils {
                 return "";
             }
         }
-        return marshmallowMacAddress;
+        return MARSHM_ALLOW_MAC_ADDRESS;
     }
 
     private static String getAddressMacByInterface() {
@@ -201,7 +209,7 @@ class AppUtils {
         String ret;
         int wifiState = wifiMan.getWifiState();
         wifiMan.setWifiEnabled(true);
-        File fl = new File(fileAddressMac);
+        File fl = new File(FILE_ADDRESS_MAC);
         FileInputStream fin = new FileInputStream(fl);
         ret = StreamUtils.getString(fin);
         fin.close();
@@ -217,9 +225,11 @@ class AppUtils {
     static String getIMEI(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
         if (checkPermission(context, Manifest.permission.READ_PHONE_STATE)) {
-            @SuppressLint("MissingPermission") String imei = telephonyManager.getDeviceId();
+            @SuppressLint({"MissingPermission", "HardwareIds"}) String imei = telephonyManager.getDeviceId();
             return imei;
-        } else return "NULL";
+        } else {
+            return "NULL";
+        }
     }
 
     /**
@@ -241,16 +251,15 @@ class AppUtils {
      * 判断activity是否在前台
      */
     static boolean isForeground(Context context, String className) {
-        if (context == null || TextUtils.isEmpty(className)) return false;
+        if (context == null || TextUtils.isEmpty(className)) {
+            return false;
+        }
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = null;
         if (am != null) {
             list = am.getRunningTasks(1);
         }
-        if (list != null && list.size() > 0) {
-            if (className.equals(list.get(0).topActivity.getClassName())) return true;
-        }
-        return false;
+        return list != null && list.size() > 0 && className.equals(list.get(0).topActivity.getClassName());
     }
 
     /**
@@ -258,6 +267,7 @@ class AppUtils {
      */
     static void openInputMethod(final EditText editText) {
         new Timer().schedule(new TimerTask() {
+            @Override
             public void run() {
                 InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (inputManager != null) {

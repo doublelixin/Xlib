@@ -1,5 +1,6 @@
 package com.doublex.xlib;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -97,7 +98,7 @@ class ScreenUtils {
             hasNavigationBar = rs.getBoolean(id);
         }
         try {
-            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            @SuppressLint("PrivateApi") Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
             Method m = systemPropertiesClass.getMethod("get", String.class);
             String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
             if ("1".equals(navBarOverride)) {
