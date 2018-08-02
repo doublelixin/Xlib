@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-//import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +39,7 @@ class AppUtils {
             throw new IllegalStateException("application already holded 'application'.");
         }
         AppUtils.application = application;
-//        CrashReport.initCrashReport(getContext(), "687b2b755d", false);
+        CrashReport.initCrashReport(getContext(), "687b2b755d", false);
     }
 
     /**
