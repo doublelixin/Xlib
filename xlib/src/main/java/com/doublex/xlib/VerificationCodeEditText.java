@@ -326,7 +326,7 @@ public class VerificationCodeEditText extends android.support.v7.widget.AppCompa
     /**
      * 验证码变化时候的监听事件
      */
-    interface OnVerificationCodeChangedListener {
+    public interface OnVerificationCodeChangedListener {
         /**
          * 当验证码变化的时候
          */

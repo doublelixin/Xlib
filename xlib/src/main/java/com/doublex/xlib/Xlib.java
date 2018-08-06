@@ -254,6 +254,35 @@ public class Xlib {
         return FileUtils.getFilePath(filePath);
     }
 
+    /***
+     * Stream转为String
+     */
+    public static String getString(InputStream inputStream) throws IOException {
+        return StreamUtils.getString(inputStream);
+    }
+
+    /***
+     * byte转为String
+     */
+    @NonNull
+    public static String getString(byte[] bytes) {
+        return StreamUtils.getString(bytes);
+    }
+
+    /***
+     * get方式获取网络数据
+     */
+    public byte[] getResponseByte(String url) {
+        return StreamUtils.getResponse(url);
+    }
+
+    /***
+     * get方式获取网络数据
+     */
+    public String getResponseString(String url) {
+        return StreamUtils.getString(StreamUtils.getResponse(url));
+    }
+
     //============================sp=============================
 
     /**
@@ -347,34 +376,4 @@ public class Xlib {
         LogUtils.w(tag, message);
     }
 
-    //============================log=============================
-
-    /***
-     * Stream转为String
-     */
-    public static String getString(InputStream inputStream) throws IOException {
-        return StreamUtils.getString(inputStream);
-    }
-
-    /***
-     * byte转为String
-     */
-    @NonNull
-    public static String getString(byte[] bytes) {
-        return StreamUtils.getString(bytes);
-    }
-
-    /***
-     * get方式获取网络数据
-     */
-    public byte[] getResponseByte(String url) {
-        return StreamUtils.getResponse(url);
-    }
-
-    /***
-     * get方式获取网络数据
-     */
-    public String getResponseString(String url) {
-        return StreamUtils.getString(StreamUtils.getResponse(url));
-    }
 }
